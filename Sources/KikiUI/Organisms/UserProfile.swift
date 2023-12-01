@@ -125,9 +125,26 @@ public class UserProfileViewModel: NSObject, ObservableObject {
 
 
 public struct UserProfile: View {
-    @ObservedObject var viewModel = UserProfileViewModel()
+//    @ObservedObject var viewModel = UserProfileViewModel()
+    @ObservedObject public var viewModel: UserProfileViewModel
     
-    public init() {}
+    public init(viewModel: UserProfileViewModel) {
+        self.viewModel = viewModel
+    }
+
+    // Initializer for testing that creates its own UserProfileViewModel
+    public init() {
+        // Here you can provide default or mock data for the view model
+        self.viewModel = UserProfileViewModel(
+            onPressExternalContact: { _ in print("External contact pressed") },
+            onPressReport: { print("Report pressed") },
+            onPressMessage: { print("Message pressed") },
+            onPressShareProfile: { print("Share profile pressed") },
+            onPressRemoveFriend: { print("Remove friend pressed") },
+            onToggleMute: { print("Mute toggled") },
+            onToggleBlock: { print("Block toggled") }
+        )
+    }
     
     public var body: some View {
         ScrollView {
