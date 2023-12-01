@@ -45,6 +45,8 @@ enum ContactType {
 public struct UserProfile: View {
     @ObservedObject var viewModel = UserProfileViewModel()
     
+    public init() {}
+    
     public var body: some View {
         ScrollView {
             VStack (spacing: defaultListSpacing){
