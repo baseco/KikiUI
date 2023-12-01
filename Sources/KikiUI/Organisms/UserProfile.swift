@@ -1,6 +1,6 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Henry Jones on 11/30/23.
 //
@@ -8,39 +8,121 @@
 import SwiftUI
 import DesignSystem
 
-public class UserProfileViewModel: ObservableObject {
-    @Published var isBlocked: Bool = false
-    @Published var isMuted: Bool = false
-    @Published var title: String = "Oliver W."
-    @Published var subtitle: String = "@Oliver"
-    @Published var note: String = "Oliver Wang from your contacts"
-    @Published var bio: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+public enum ExternalContactType {
+    case faceTime, phone
+}
 
-    func onPressExternalContact(_ contactType: ContactType) {
-        switch contactType {
-        case .faceTime:
-            print("FaceTime tapped")
-        case .phone:
-            print("Phone tapped")
+public protocol UserProfileViewModelDelegate: AnyObject {
+    func onPressExternalContact(_ contactType: ExternalContactType)
+    func onPressReport()
+    func onPressMessage()
+    func onPressShareProfile()
+    func onPressRemoveFriend()
+    func onToggleMute()
+    func onToggleBlock()
+}
+
+public class UserProfileViewModel: NSObject, ObservableObject {
+    @Published public var isBlocked: Bool = false
+    @Published public var isMuted: Bool = false
+    @Published public var title: String = "Oliver W."
+    @Published public var subtitle: String = "@Oliver"
+    @Published public var note: String = "Oliver Wang from your contacts"
+    @Published public var bio: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    
+    weak var delegate: UserProfileViewModelDelegate?
+    
+    // Functions passed directly
+    var onPressExternalContactAction: ((ExternalContactType) -> Void)?
+    var onPressReportAction: (() -> Void)?
+    var onPressMessageAction: (() -> Void)?
+    var onPressShareProfileAction: (() -> Void)?
+    var onPressRemoveFriendAction: (() -> Void)?
+    var onToggleMuteAction: (() -> Void)?
+    var onToggleBlockAction: (() -> Void)?
+    
+    // Initializer for delegate pattern
+    public init(delegate: UserProfileViewModelDelegate) {
+        self.delegate = delegate
+    }
+    
+    // Initializer for direct function assignment
+    public init(onPressExternalContact: ((ExternalContactType) -> Void)? = nil,
+         onPressReport: (() -> Void)? = nil,
+         onPressMessage: (() -> Void)? = nil,
+         onPressShareProfile: (() -> Void)? = nil,
+         onPressRemoveFriend: (() -> Void)? = nil,
+         onToggleMute: (() -> Void)? = nil,
+         onToggleBlock: (() -> Void)? = nil) {
+        
+        self.onPressExternalContactAction = onPressExternalContact
+        self.onPressReportAction = onPressReport
+        self.onPressMessageAction = onPressMessage
+        self.onPressShareProfileAction = onPressShareProfile
+        self.onPressRemoveFriendAction = onPressRemoveFriend
+        self.onToggleMuteAction = onToggleMute
+        self.onToggleBlockAction = onToggleBlock
+    }
+
+
+    func onPressExternalContact(_ contactType: ExternalContactType) {
+        if let action = onPressExternalContactAction {
+            action(contactType)
+        } else {
+            delegate?.onPressExternalContact(contactType)
         }
     }
     
     func onPressReport() {
-        print("Report tapped")
+        if let action = onPressReportAction {
+            action()
+        } else {
+            delegate?.onPressReport()
+        }
     }
     
     func onPressMessage() {
-        print("Message tapped")
+        if let action = onPressMessageAction {
+            action()
+        } else {
+            delegate?.onPressMessage()
+        }
     }
-    
+
+    func onPressShareProfile() {
+        if let action = onPressShareProfileAction {
+            action()
+        } else {
+            delegate?.onPressShareProfile()
+        }
+    }
+
     func onPressRemoveFriend() {
-        print("Remove Friend tapped")
+        if let action = onPressRemoveFriendAction {
+            action()
+        } else {
+            delegate?.onPressRemoveFriend()
+        }
+    }
+
+    func onToggleMute() {
+        if let action = onToggleMuteAction {
+            action()
+        } else {
+            delegate?.onToggleMute()
+        }
+    }
+
+    func onToggleBlock() {
+        if let action = onToggleBlockAction {
+            action()
+        } else {
+            delegate?.onToggleBlock()
+        }
     }
 }
 
-enum ContactType {
-    case faceTime, phone
-}
+
 
 public struct UserProfile: View {
     @ObservedObject var viewModel = UserProfileViewModel()
@@ -58,12 +140,22 @@ public struct UserProfile: View {
                         note: viewModel.note
                     )
                     Divider()
-                    KikiButton(
-                        text: "Message",
-                        mode: .primary
-                    ) {
-                        viewModel.onPressMessage()
-                    }
+                    HStack{
+                        
+                        HStack(spacing: 16.0){
+                            KikiButton(
+                                text: "Message",
+                                mode: .primary
+                            ) {
+                                viewModel.onPressMessage()
+                            }
+                            KikiBlob(){
+                                Image("add-friend", bundle: .designSystem)                        
+                                    .padding(8)
+                            }
+                        }
+                        .padding()
+                    }.background(Color.white)
                 }
                 KikiCellVStack {
                     KikiSettingsCell(

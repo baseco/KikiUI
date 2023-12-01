@@ -49,9 +49,7 @@ struct KikiButton: View {
                 .frame(height: 40)
                 .background(mode.color)
                 .clipShape(Capsule())
-                .padding()
         }        
-        .background(Color.white)
     }
 }
 
