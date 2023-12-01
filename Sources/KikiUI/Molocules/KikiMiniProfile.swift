@@ -8,25 +8,25 @@
 import SwiftUI
 import DesignSystem
 
-struct KikiMiniProfile: View {
+public struct KikiMiniProfile: View {
     var image: Image?
     var title: String?
     var subtitle: String?
     var note: String?
     let avatarMode: AvatarModes = .large
     
-    var body: some View {
+    public var body: some View {
         HStack(spacing: 16) {
             KikiAvatar(mode: avatarMode, image: image)
             GeometryReader { geometry in
                 VStack(alignment: .leading) {
                     if let title = title {
                         Text(title)
-                            .font(.kkSystem(16, weight: .black, fontFamily: .DMSans))
+                            .font(.kikiFont(16, weight: .black, fontFamily: .DMSans))
                     }
                     if let subtitle = subtitle {
                         Text(subtitle)
-                            .font(.kkSystem(12, weight: .semibold, fontFamily: .DMSans))
+                            .font(.kikiFont(12, weight: .semibold, fontFamily: .DMSans))
                             .foregroundColor(.gray)
                     }
 
@@ -34,7 +34,7 @@ struct KikiMiniProfile: View {
                     
                     if let note = note {
                         Text(note)
-                            .font(.kkSystem(12, weight: .semibold, fontFamily: .DMSans))
+                            .font(.kikiFont(12, weight: .semibold, fontFamily: .DMSans))
                             .foregroundColor(.secondary)
                     }
                 }

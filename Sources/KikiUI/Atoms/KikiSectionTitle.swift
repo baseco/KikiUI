@@ -14,7 +14,7 @@ struct KikiSectionTitle: View {
     var body: some View {
         HStack{
             Text(text)
-                .font(.kkSystem(16, weight: .bold, fontFamily: .TitanOne))
+                .font(.kikiFont(16, weight: .bold, fontFamily: .TitanOne))
                 .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
             Spacer()
         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: 32)

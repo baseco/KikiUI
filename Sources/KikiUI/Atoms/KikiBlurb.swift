@@ -21,7 +21,7 @@ struct KikiBlurb: View {
         VStack(alignment: .leading) {
             Text(text)
                 .padding()
-                .font(.kkSystem(12, weight: .semibold, fontFamily: .DMSans))
+                .font(.kikiFont(12, weight: .semibold, fontFamily: .DMSans))
         }
         .frame(maxWidth: .infinity)
         .background(RoundedRectangle(cornerRadius: mode == .single ? defaultBorderRadius : 0).fill(Color.white))

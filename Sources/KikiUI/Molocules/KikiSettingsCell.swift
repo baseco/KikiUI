@@ -58,7 +58,7 @@ struct KikiSettingsCell<Content: View>: View {
             },
             body: {
                 Text(title)
-                    .font(.kkSystem(16, weight: .black, fontFamily: .DMSans))
+                    .font(.kikiFont(16, weight: .black, fontFamily: .DMSans))
             },
             action: {
                 if let content = content {

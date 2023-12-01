@@ -8,7 +8,7 @@
 import SwiftUI
 import DesignSystem
 
-class UserProfileViewModel: ObservableObject {
+public class UserProfileViewModel: ObservableObject {
     @Published var isBlocked: Bool = false
     @Published var isMuted: Bool = false
     @Published var title: String = "Oliver W."
@@ -42,10 +42,10 @@ enum ContactType {
     case faceTime, phone
 }
 
-struct UserProfile: View {
+public struct UserProfile: View {
     @ObservedObject var viewModel = UserProfileViewModel()
     
-    var body: some View {
+    public var body: some View {
         ScrollView {
             VStack (spacing: defaultListSpacing){
                 Spacer()

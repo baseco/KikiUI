@@ -53,11 +53,11 @@ extension Font {
         return Font.custom("DM Sans", size: UIFont.preferredFont(forTextStyle: .caption1).pointSize).weight(.semibold)
     }
     
-    public static var kkSystem: Font {
+    public static var kikiFont: Font {
         return Font.custom("DM Sans", size: 16).weight(.semibold)
     }
     
-    public static func kkSystem(_ size: CGFloat = 16, weight: Font.Weight = .semibold, fontFamily: KKFontFamily = .DMSans) -> Font {
+    public static func kikiFont(_ size: CGFloat = 16, weight: Font.Weight = .semibold, fontFamily: KKFontFamily = .DMSans) -> Font {
         
         var font: String
         switch (fontFamily) {
